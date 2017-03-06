@@ -11,7 +11,7 @@ An Arduino/ESP8266 library to interface multiple seven-segment displays with PCF
 1. Connect PCF8574 I/O pins to your display's pins A,B,C,D,E,F,G,DP through current limiting resistors.
 2. Connect anodes to any of microcontroller's digital pins.
 
-# Baisc methods
+# Basic methods
 ### SevenSegPCF8574(uint8_t address, uint8_t A, uint8_t B, uint8_t C, uint8_t D, uint8_t E, uint8_t F, uint8_t G, uint8_t DP)
 Object constructor. You have to specify I2C address that is used by your expander and PCF8574's pin numbers wired to display's cathodes.
 
