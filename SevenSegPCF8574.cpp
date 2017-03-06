@@ -2,6 +2,22 @@
 #include <Wire.h>
 #include <SevenSegPCF8574.h>
 
+const uint8_t SevenSegPCF8574::DIGITS[11] = {
+  0b11111100, // 0
+  0b01100000, // 1
+  0b11011010, // 2
+  0b11110010, // 3
+  0b01100110, // 4
+  0b10110110, // 5
+  0b10111110, // 6
+  0b11100000, // 7
+  0b11111110, // 8
+  0b11110110, // 9
+  0b00000000  // NONE
+};
+
+const uint8_t SevenSegPCF8574::MINUS = 0b00000010;
+
 SevenSegPCF8574::SevenSegPCF8574(uint8_t address, uint8_t A, uint8_t B, uint8_t C, uint8_t D, uint8_t E, uint8_t F, uint8_t G, uint8_t DP) {
   this -> address = address;
   this -> digitsCount = 0;
@@ -36,7 +52,7 @@ bool SevenSegPCF8574::addDigit(uint8_t pin) {
   }
 
   for(uint8_t x = 0; x < this -> digitsCount; x++) {
-    //if(this -> digits[x].pin == pin) return false;
+    if(this -> digits[x].pin == pin) return false;
   }
   
   this -> digits[this -> digitsCount].pin = pin;
@@ -78,18 +94,35 @@ bool SevenSegPCF8574::setDecimalPoint(uint8_t index, bool isOn) {
 }
 
 bool SevenSegPCF8574::setDouble(double number, uint8_t decimalPoints) {
-  bool result = setInteger((int) (number * decimalPoints));
-  // tu coś nie gra xD
-  result = result && setDecimalPoint(this -> digitsCount - decimalPoints, true);
+  bool result = setInteger((int) (number * pow(10, decimalPoints)));
+  if(decimalPoints > 0) {
+  	result = result && setDecimalPoint(this -> digitsCount - decimalPoints - 1, true);
+  }
   return result;
 }
 
 bool SevenSegPCF8574::setInteger(int number) {
-  bool sign = number < 0;
-  for(int x = this -> digitsCount; x >= 0 && number != 0; x++) {
-    //setDigit(x, DIGITS[number % 10]);
+  bool sign = false;
+  if(number < 0) {
+  	number *= -1;
+  	sign = true;
+  }
+
+  int x;
+  for(x = this -> digitsCount - 1; x >= 0 && number != 0; x--) {
+    setDigit(x, DIGITS[number % 10]);
     number /= 10;
   }
+
+  if(x >= 0 && sign) {
+  	setDigit(x--, MINUS);
+  }
+
+  for(x; x >=0; x--) {
+  	setDigit(x, DIGITS[10]);
+  }
+
+  return number <= 0;
 }
 
 void SevenSegPCF8574::show() {
