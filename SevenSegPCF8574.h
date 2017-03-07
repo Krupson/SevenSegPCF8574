@@ -35,9 +35,11 @@ class SevenSegPCF8574 {
 
     bool setDigit(uint8_t index, uint8_t value);
 
-    bool setDecimalPoint(uint8_t index, bool isOn);
+    bool setDecimalPoint(uint8_t index, bool displayDecimalPoint);
 
     bool setDouble(double number, uint8_t decimalPoints);
+
+    bool setDouble(double number);
 
     bool setInteger(int number);
 

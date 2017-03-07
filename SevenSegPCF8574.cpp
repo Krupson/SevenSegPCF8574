@@ -82,11 +82,11 @@ bool SevenSegPCF8574::setDigit(uint8_t index, uint8_t value) {
   return true;
 }
 
-bool SevenSegPCF8574::setDecimalPoint(uint8_t index, bool isOn) {
+bool SevenSegPCF8574::setDecimalPoint(uint8_t index, bool displayDecimalPoint) {
   if(index >= this -> digitsCount) {
     return false;
   }
-  if(isOn) {
+  if(displayDecimalPoint) {
     this -> digits[index].state |= 0b00000001;
   } else {
     this -> digits[index].state &= 0b11111110;
@@ -99,6 +99,10 @@ bool SevenSegPCF8574::setDouble(double number, uint8_t decimalPoints) {
   	result = result && setDecimalPoint(this -> digitsCount - decimalPoints - 1, true);
   }
   return result;
+}
+
+bool SevenSegPCF8574::setDouble(double number, uint8_t decimalPoints) {
+  return setDouble(number, 1);
 }
 
 bool SevenSegPCF8574::setInteger(int number) {
