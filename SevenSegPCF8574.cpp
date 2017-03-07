@@ -101,7 +101,7 @@ bool SevenSegPCF8574::setDouble(double number, uint8_t decimalPoints) {
   return result;
 }
 
-bool SevenSegPCF8574::setDouble(double number, uint8_t decimalPoints) {
+bool SevenSegPCF8574::setDouble(double number) {
   return setDouble(number, 1);
 }
 
