@@ -1,5 +1,5 @@
 # SevenSegPCF8574
-An Arduino/ESP8266 library to interface multiple seven-segment displays with PCF8574 expander
+An open-source Arduino/ESP8266 library to interface multiple seven-segment displays with PCF8574 expander.
 
 # How to use
 ### Partslist
@@ -19,20 +19,20 @@ Object constructor. You have to specify I2C address that is used by your expande
 By default no digits are specified. You have to manually assiociate digit index with corresponding uC pin. If everything goes fine method returns true. Note that at first you have to add the most significant digit.
 
 ### bool setDigit(uint8_t index, uint8_t value, bool displayDecimalPoint)
-You can set all the digits separately if you want. All you have to do is to give digit index and value coded in binary (see ***Encoding*** section). Optionally you can light up decimal point by setting displayDecimalPoint to true.
+You can set all the digits separately if you want. All you have to do is to give digit index and value coded in binary (see **Encoding** section). Optionally you can light up decimal point by setting displayDecimalPoint to true.
 Returns true if everything is ok.
 
 ### bool setDouble(double number, uint8_t decimalPoints)
-Display double value. You have to specify number and decimal points. Returns true if whole number fits the display.
+Display double value. You can specify number and decimal points (default is 1). Returns true if whole number fits the display.
 
 ### bool setInteger(int number)
-Like setDouble but with integers. Returns true if whole number fits the display.
+Just like setDouble but with integers. Returns true if whole number fits the display.
 
 ### void show()
 This method have to be executed in loop() without any delays between iterations.
 
 # Encoding
-As a ***value*** parameter you can pass one of predefined symbols or define your own.
+As a **value** parameter you can pass one of predefined symbols or define your own.
 
 ### Using predefined symbols
 Just use SevenSegPCF8574::DIGITS[x] constant where x is the digit you want do display. If x == 10 then the whole digit goes black.
@@ -49,3 +49,10 @@ The most significant bit drives segment A. The least significant bit drives segm
 * Bit 2 <-> F
 * Bit 1 <-> G
 * Bit 0 <-> DP
+
+If bit for specific segment is set to 1 then it will light up. Otherwise it will go black.
+
+*For example to light up only segments D and G on most significant digit just call*
+```
+display.setDigit(0, 0b00010010);
+```
