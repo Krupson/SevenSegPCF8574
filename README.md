@@ -28,14 +28,21 @@ Display double value. You can specify number and decimal points (default is 1). 
 ### bool setInteger(int number)
 Just like setDouble but with integers. Returns true if whole number fits the display.
 
+### bool setString(String text)
+Display text. Returns true if whole text fits the display.
+
+### void shiftString(String text, int duration)
+Like setString, but if text doesn't fit the display it is shifted left every *duration* milliseconds. This method has to be executed in loop() without any delays between iterations.
+
 ### void show()
-This method has to be executed in loop() without any delays between iterations.
+This method drives the display (multiplexing). This method has to be executed in loop() without any delays between iterations.
 
 # Encoding
 As a **value** parameter you can pass one of predefined symbols or define your own.
 
 ### Using predefined symbols
-Just use SevenSegPCF8574::DIGITS[x] constant where x is the digit you want do display. If x == 10 then the whole digit goes black.
+Just call getDigitCode(uint8_t digit) or getLetterCode(char letter) to get the digit/letter code. Then you can pass result as *value* to setDigit method.
+To get digit code you can also use SevenSegPCF8574::DIGITS[x] constant array where x is the digit you want do display. If x == 10 then the whole digit goes black.
 There is also a constant called MINUS which displays minus sign.
 
 ### Define your own symbols
