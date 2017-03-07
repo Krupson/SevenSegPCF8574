@@ -56,3 +56,9 @@ If bit for specific segment is set to 1 then it will light up. Otherwise it will
 ```
 display.setDigit(0, 0b00010010);
 ```
+
+# To do
+- [ ] Examples
+- [ ] Printing strings
+- [ ] Better documentation
+- [x] Printing numbers
