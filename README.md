@@ -29,7 +29,7 @@ Display double value. You can specify number and decimal points (default is 1). 
 Just like setDouble but with integers. Returns true if whole number fits the display.
 
 ### void show()
-This method have to be executed in loop() without any delays between iterations.
+This method has to be executed in loop() without any delays between iterations.
 
 # Encoding
 As a **value** parameter you can pass one of predefined symbols or define your own.
@@ -56,9 +56,3 @@ If bit for specific segment is set to 1 then it will light up. Otherwise it will
 ```
 display.setDigit(0, 0b00010010);
 ```
-
-# To do
-- [ ] Examples
-- [ ] Printing strings
-- [ ] Better documentation
-- [x] Printing numbers
