@@ -20,7 +20,10 @@ class SevenSegPCF8574 {
     SevenSegPCF8574_Digit * digits;
     uint8_t digitsCount;
     uint8_t address;
+    uint8_t shift;
+    uint32_t lastShift;
 
+ 
   public:
     static const uint8_t DIGITS[11];
     static const uint8_t MINUS;
@@ -30,6 +33,10 @@ class SevenSegPCF8574 {
     bool addDigit(uint8_t pin);
 
     uint8_t getDigitsCount() const;
+
+    uint8_t getDigitCode(uint8_t digit) const;
+
+    uint8_t getLetterCode(char letter) const;
 
     bool setDigit(uint8_t index, uint8_t value, bool displayDecimalPoint);
 
@@ -41,11 +48,15 @@ class SevenSegPCF8574 {
 
     bool setDouble(double number);
 
+    bool setInteger(int number, uint8_t leadingZeros);
+
     bool setInteger(int number);
 
-    void show();
+    bool setString(String text);
 
-    void printCode(int index);
+    void shiftString(String text, int duration);
+
+    void show(); 
 };
 
 #endif
