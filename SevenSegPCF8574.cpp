@@ -128,7 +128,7 @@ bool SevenSegPCF8574::setDigit(uint8_t index, uint8_t value) {
 }
 
 bool SevenSegPCF8574::setDecimalPoint(uint8_t index, bool displayDecimalPoint) {
-  if(index >= this -> digitsCount) {
+  if(index >= getDigitsCount()) {
     return false;
   }
   if(displayDecimalPoint) {
@@ -136,20 +136,21 @@ bool SevenSegPCF8574::setDecimalPoint(uint8_t index, bool displayDecimalPoint) {
   } else {
     this -> digits[index].state &= 0b11111110;
   }
+  return true;
 }
 
 bool SevenSegPCF8574::setDouble(double number, uint8_t decimalPoints) {
   bool result;
   if(number == 0.0) {
   	result = setInteger(0, decimalPoints + 1);
-  } else if(number < 1.0) {
-  	result = setInteger((int) (number * pow(10, decimalPoints)), max(decimalPoints, 1));
+  } else if(abs(number) < 1.0) {
+  	result = setInteger((int) (number * pow(10, decimalPoints)), 1);
   } else {
   	result = setInteger((int) (number * pow(10, decimalPoints)));
   }
 
   if(decimalPoints > 0) {
-  	result = result && setDecimalPoint(this -> digitsCount - decimalPoints - 1, true);
+  	result = setDecimalPoint(getDigitsCount() - decimalPoints - 1, true) && result;
   }
   return result;
 }
@@ -164,12 +165,17 @@ bool SevenSegPCF8574::setInteger(int number) {
 
 bool SevenSegPCF8574::setInteger(int number, uint8_t leadingZeros) {
   bool sign = false;
+  uint8_t digits = leadingZeros; 
   if(number < 0) {
   	number *= -1;
   	sign = true;
+  	digits++;
   }
 
-  int x;
+  int x = 0;
+  while(number >= pow(10,x)) x++;
+  digits += x;
+
   for(x = this -> digitsCount - 1; x >= 0 && number != 0; x--) {
     setDigit(x, getDigitCode(number % 10));
     number /= 10;
@@ -188,7 +194,7 @@ bool SevenSegPCF8574::setInteger(int number, uint8_t leadingZeros) {
   	setDigit(x--, getDigitCode(10));
   }
 
-  return number <= 0;
+  return digits <= getDigitsCount();
 }
 
 
