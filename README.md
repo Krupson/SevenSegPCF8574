@@ -63,3 +63,6 @@ If bit for specific segment is set to 1 then it will light up. Otherwise it will
 ```
 display.setDigit(0, 0b00010010);
 ```
+### Generate symbol in dedicated web tool
+You can also easily create your own symbols using special tool here:
+http://tools.krupson.eu/SevenSegPCF8574/
